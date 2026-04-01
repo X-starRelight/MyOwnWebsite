@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>是星星与然然呀 · 个人主页</title>
+    <!-- Font Awesome 7.2.0 ( Free ) -->
+    <link rel="stylesheet" href="/package/font-awesome/code/css/all.min.css">
+    <!-- GSAP 核心库 + ScrollTrigger 插件 -->
+    <script src="/package/GSAP/code/gsap.min.js"></script>
+    <script src="/package/GSAP/code/ScrollTrigger.min.js"></script>
+    <!-- Vue.js -->
+    <script src="/package/Vue/code/vue.global.prod.js"></script>
+    <script src="/package/Marked/code/marked.umd.js"></script>
+
+    <!-- 动态加载外部资源（原有逻辑） -->
+    <script>
+      function loadStyle(src) {
+        return new Promise((resolve, reject) => {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = src + "?v=" + new Date().getTime();
+          link.async = true;
+          link.onload = resolve;
+          link.onerror = reject;
+          document.head.appendChild(link);
+        });
+      }
+
+      function loadScript(src) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          if (src.includes('?')) {
+            script.src = src + "&v=" + new Date().getTime();
+          } else {
+            script.src = src + "?v=" + new Date().getTime();
+          }
+          script.async = true;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+
+      const quicksJson = JSON.stringify([
+          { "name": "首页", "link": "/#home" },
+          { "name": "关于我们", "link": "/#about" },
+          { "name": "项目展示", "link": "/#studio" },
+          { "name": "团队成员", "link": "/#contact" },
+      ]);
+
+      const encodedQuicks = encodeURIComponent(quicksJson);
+      const text = encodeURIComponent("是星星与然然呀");
+
+      loadStyle("../assets/style.css");
+      let scriptArray = [
+        "/assets/AddHeader.js",
+        `https://footerjs-sxxyrry.pages.dev/footer.js?name=${text}&description=${text}&quicks=${encodedQuicks}`,
+        "/assets/AutoRun.js",
+        "/assets/pointer.js",
+      ];
+
+      scriptArray.forEach((script) => {
+        loadScript(script);
+      });
+    </script>
+
+    <!-- 样式（原有，保留） -->
+    <link rel="stylesheet" href="/assets/style.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0c10;
+            color: #eef2ff;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --bg-dark: #0a0c10;
+            --bg-card: #14171c;
+            --bg-elevated: #1e2128;
+            --border-dim: #2a2e36;
+            --text-primary: #f0f3fa;
+            --text-secondary: #b0b8c5;
+            --accent: #f97316;
+            --accent-hover: #fd9b4a;
+            --accent-glow: rgba(249, 115, 22, 0.2);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 12, 16, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dim);
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #facc15, #f97316);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            padding: 0.6rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #0a0c10;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px var(--accent-glow);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: #0a0c10;
+            border-color: var(--accent);
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .hero {
+            padding: 100px 0 80px;
+            background: radial-gradient(circle at 20% 30%, #11151c, #080b0f);
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .hero-badge {
+            background: rgba(249, 115, 22, 0.15);
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(135deg, #facc15, #f97316);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 1.8rem;
+            border: 1px solid var(--border-dim);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .work-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 1.8rem;
+            border: 1px solid var(--border-dim);
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .work-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .work-icon {
+            font-size: 2.2rem;
+            color: var(--accent);
+        }
+
+        .work-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .work-desc {
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .work-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .work-tag {
+            background: var(--bg-elevated);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background: var(--bg-elevated);
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        footer .social-links a {
+            font-size: inherit;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        .studio-card {
+            background: var(--bg-elevated);
+            border-radius: 24px;
+            padding: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .studio-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .studio-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .studio-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .gsap-fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .nav-links {
+                gap: 1rem;
+            }
+            .studio-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <main>
+        <!-- Hero 个人首页 -->
+        <section id="home" class="hero">
+            <div class="container hero-content _target">
+                <div class="hero-badge gsap-fade-up _target">
+                    <i class="fas fa-star"></i> TT23XR 工作室 · 室长
+                </div>
+                <h1 class="gsap-fade-up">
+                    你好，我是 <span class="hero-highlight _target">是星星与然然呀</span><br>
+                    星辰为引，把兴趣玩出名堂。
+                </h1>
+                <p class="hero-desc gsap-fade-up">
+                    信息技术爱好者，全栈开发者，学生创业者。<br>
+                    相信技术的力量可以改变世界，通过代码创造价值。
+                </p>
+                <div class="hero-buttons gsap-fade-up">
+                    <a href="#about" class="btn btn-primary"><i class="fas fa-user-astronaut"></i> 了解更多</a>
+                    <a href="#studio" class="btn btn-outline"><i class="fas fa-cubes"></i> 我的工作室</a>
+                    
+            
+                    <button class="btn btn-primary" onclick="showREDialog()"> README 文件 </button>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 关于我 (个人) -->
+        <section id="about">
+            <div class="container _target">
+                <h2 class="section-title gsap-fade-up">关于我</h2>
+                <div class="card gsap-fade-up _target">
+                    <div class="tech-stack" style="margin-top: 0;">
+                        <span class="tech-tag _target">Vue.js</span>
+                        <span class="tech-tag _target">Web js</span>
+                        <span class="tech-tag _target">Node js</span>
+                        <span class="tech-tag _target">Python</span>
+                        <span class="tech-tag _target">Flask</span>
+                        <span class="tech-tag _target">Golang</span>
+                        <span class="tech-tag _target">Rust</span>
+                        <span class="tech-tag _target">文学</span>
+                    </div>
+                    <p style="margin: 1.2rem 0 0.8rem; line-height: 1.6;">
+                        我为 <strong>是星星与然然呀 （也可以叫我 XR）</strong>。写代码，也写诗。<br>我的随笔也留在了这个人网页中<br>我所有编程作品都在 GitHub ，欢迎来看。
+                    </p>
+                    <p style="color: var(--text-secondary);">
+                        <i class="fas fa-quote-left" style="margin-right: 6px; color: var(--accent);"></i> 
+                        /** 星辰为引，落英（初开的花）编程，把兴趣玩出名堂。 */
+                    </p>
+                    <div class="social-links">
+                        <a href="https://github.com/sxxyrry" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://space.bilibili.com/1532090388" target="_blank" rel="noopener" aria-label="Bilibili"><i class="fab fa-bilibili"></i></a>
+                        <a href="https://x.com/sxxyrry" target="_blank" rel="noopener" aria-label="X"><i class="fab fa-x"></i></a>
+                        <a href="https://ifdian.net/a/sxxyrry_ttxr" target="_blank" rel="noopener" aria-label="爱发电"><img src="https://static.afdiancdn.com/static/img/logo/logo.png" style="width: 2rem; height: 2rem;" alt="爱发电" /></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 个人作品集（Vue 动态渲染，数据来自外部 worksData） -->
+        <section id="works">
+            <div class="container">
+                <h2 class="section-title gsap-fade-up">个人作品</h2>
+                <div class="works-grid">
+                    <div v-for="work in worksData" :key="work.id" class="work-card gsap-fade-up">
+                        <div class="work-icon _target"><i :class="work.icon"></i></div>
+                        <div class="work-title _target">{{ work.title }}</div>
+                        <div class="work-desc _target" v-html="work.desc"></div>
+                        <div class="work-tags">
+                            <span v-for="tag in work.tags" :key="tag" class="work-tag _target">{{ tag }}</span>
+                        </div>
+                        <a :href="work.link" target="_blank" class="btn btn-outline" style="align-self: flex-start; margin-top: 0.5rem; padding: 0.4rem 1rem;">
+                            <i :class="work.btnIcon"></i> {{ work.btnText }}
+                        </a>
+                    </div>
+                </div>
+                <p class="gsap-fade-up" style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
+                    <i class="fas fa-palette"></i> 更多作品持续创作中，欢迎关注 GitHub 或 B 站～
+                </p>
+            </div>
+        </section>
+
+        <!-- 工作室简要介绍 + 跳转链接 -->
+        <section id="studio">
+            <div class="container _target">
+                <h2 class="section-title gsap-fade-up">TT23XR 工作室</h2>
+                <div class="studio-card gsap-fade-up _target">
+                    <div class="studio-info">
+                        <h3><i class="fas fa-cogs"></i> TT23XR Studio</h3>
+                        <p>信息技术工作室 · 把兴趣玩出名堂 | 一群学生因爱好聚集，用代码创造价值。</p>
+                        <p style="font-size: 0.85rem; margin-top: 6px;">旗下项目：JustHTML工具箱、TTHSD高速下载器等。</p>
+                    </div>
+                    <div class="studio-links">
+                        <a href="https://tt23xr.sxxyrry.qzz.io" target="_blank" rel="noopener" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">
+                            <i class="fas fa-external-link-alt"></i> 访问官网
+                        </a>
+                        <a href="https://sxxyrry23xr-github.pages.dev" target="_blank" rel="noopener" class="btn btn-outline" style="padding: 0.5rem 1.2rem;">
+                            <i class="fas fa-link"></i> 备用站点
+                        </a>
+                    </div>
+                </div>
+                <p class="gsap-fade-up" style="margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> 工作室官网包含了完整项目展示、发展历程、团队成员等信息，欢迎点击访问。
+                </p>
+            </div>
+        </section>
+
+        <!-- 联系我 -->
+        <section id="contact">
+            <div class="container _target">
+                <h2 class="section-title gsap-fade-up">联系我</h2>
+                <div class="card gsap-fade-up _target">
+                    <p>如果您对我的项目或者工作室合作感兴趣，欢迎通过以下方式与我联系：</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0;">
+                        <a href="https://space.bilibili.com/1532090388" class="btn btn-outline"><i class="fab fa-bilibili"></i> B站私信</a>
+                        <a href="https://ifdian.net/a/sxxyrry_ttxr" class="btn btn-outline"><img src="https://static.afdiancdn.com/static/img/logo/logo.png" style="width: 1.5rem; height: 1.5rem;" alt="爱发电" /> 爱发电私信</a>
+                    </div>
+                    <hr style="border-color: var(--border-dim); margin: 1rem 0;">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        <i class="fas fa-globe"></i> 工作室主站：<a href="https://tt23xr.sxxyrry.qzz.io" target="_blank" rel="noopener" style="color: var(--accent);">tt23xr.sxxyrry.qzz.io</a> 
+                        &nbsp;|&nbsp; 
+                        备用：<a href="https://sxxyrry23xr-github.pages.dev" target="_blank" rel="noopener" style="color: var(--accent);">sxxyrry23xr-github.pages.dev</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<dialog id="READMEDialog">
+    <div class="dialog-content">
+    <h2>README</h2>
+    <pre id="README"></pre>
+    <div class="dialog-actions">
+        <button class="btn" id="closeDialog_README">关闭</button>
+    </div>
+    </div>
+</dialog>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        var dialog = document.getElementById('READMEDialog');
+        var closeDialogBtn = document.getElementById('closeDialog_README');
+        
+        // 添加打开对话框的方法到 全局 中
+        showREDialog = function() {
+            const dialog_info = document.getElementById('infoDialog');
+            if (dialog_info) {
+                dialog_info.close();
+            }
+            dialog.showModal();
+        };
+
+        window.showREDialog = showREDialog
+        
+        // 关闭对话框事件
+        closeDialogBtn.addEventListener('click', () => {
+            dialog.close();
+        });
+        
+        // 点击对话框外部关闭对话框
+        dialog.addEventListener('click', (event) => {
+            if (event.target === dialog) {
+                dialog.close();
+            }
+        });
+    });
+    // 原 GSAP 初始化逻辑（保留原有代码，适配动态元素）
+    function initGSAP() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+        // 重新创建滚动触发器（避免重复绑定）
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+        gsap.utils.toArray('.gsap-fade-up').forEach(element => {
+            gsap.set(element, { opacity: 0, y: 30 });
+            ScrollTrigger.create({
+                trigger: element,
+                start: "top 85%",
+                onEnter: () => {
+                    gsap.to(element, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        overwrite: true
+                    });
+                },
+                once: true
+            });
+        });
+
+        // Hero 区域首屏 fallback
+        const heroElements = document.querySelectorAll('.hero .gsap-fade-up');
+        heroElements.forEach(el => {
+            if (getComputedStyle(el).opacity === '0') {
+                gsap.to(el, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    delay: 0.1,
+                    ease: "backOut",
+                    overwrite: true
+                });
+            }
+        });
+
+        // 刷新 ScrollTrigger 确保位置准确
+        ScrollTrigger.refresh();
+    }
+
+    // 平滑滚动与导航高亮（原逻辑，若页面无 nav-links 则跳过）
+    window.addEventListener('load', () => {
+        const navLinks = document.querySelectorAll('.nav-links a');
+        if (navLinks.length) {
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        e.preventDefault();
+                        const targetEl = document.querySelector(targetId);
+                        if (targetEl) {
+                            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            history.pushState(null, null, targetId);
+                        }
+                    }
+                });
+            });
+        }
+
+        const sections = document.querySelectorAll('section[id]');
+        function highlightNav() {
+            let scrollPos = window.scrollY + 120;
+            sections.forEach(sec => {
+                const offsetTop = sec.offsetTop;
+                const offsetBottom = offsetTop + sec.offsetHeight;
+                if (scrollPos >= offsetTop && scrollPos < offsetBottom) {
+                    const id = sec.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.style.color = '';
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.style.color = 'var(--accent)';
+                        } else {
+                            link.style.color = 'var(--text-secondary)';
+                        }
+                    });
+                }
+            });
+        }
+        window.addEventListener('scroll', highlightNav);
+        highlightNav();
+    });
+    const { createApp } = Vue;
+
+    const App = createApp({
+        data() {
+            return {
+                worksData: window.worksData || []
+            };
+        },
+        mounted() {
+            this.$nextTick(() => {
+                initGSAP();
+            });
+        },
+        updated() {
+            this.$nextTick(() => {
+                initGSAP();
+            });
+        }
+    });
+
+    function init_app() {
+        // 先初始化GSAP插件，再挂载 Vue 应用
+        // 因为 Vue 的 mounted() 钩子会使用 ScrollTrigger
+        initGSAP();
+        gsap.registerPlugin(ScrollTrigger);
+        
+        App.mount("#app");
+
+        let width = window.innerWidth
+        let height = window.innerHeight
+
+        setTimeout(() => {
+          resizeTo(0, 0);
+          resizeTo(width, height);
+        }, 1000);
+    }
+    
+    // 等待所有脚本加载完成后初始化应用
+    // 注意：Data.js 和 ShowcaseData.js 已在 head 中同步加载
+    Promise.all([
+        loadScript('/assets/Tools.js'),
+        loadScript('/assets/AutoRun.js'),
+        loadScript('/assets/Data.js'),
+    //   loadScript('/assets/ShowcaseData.js'),
+    //   loadScript('/assets/Timeline.js'),
+    //   loadScript('/assets/InteractiveEffects.js'),
+      fetch('./README.md?v=' + Date.now())
+        .then(rep => rep.text())
+        .then(text => {
+          document.getElementById('README').innerHTML = marked.parse(text);
+        }),
+    //   fetch('./VersionHistory.txt?v=' + Date.now())
+    //     .then(rep => rep.text())
+    //     .then(text => {
+    //       document.getElementById('VersionHistory').innerHTML = text;
+    //     })
+    ])
+    .then(() => {
+        // 确保数据存在，防止 undefined
+    //   window.projectsData = deepcopy(typeof projectsData !== 'undefined' ? projectsData : []);
+    //   window.teamMembersData = deepcopy(typeof teamMembersData !== 'undefined' ? teamMembersData : []);
+    //   window.partnersData = deepcopy(typeof partnersData !== 'undefined' ? partnersData : []);
+    //   window.ShowcaseData = deepcopy(typeof ShowcaseData !== 'undefined' ? ShowcaseData : []);
+    //   window.TimeLine = deepcopy(typeof TimeLine !== 'undefined' ? TimeLine : []);
+        window.worksData = deepcopy(typeof WorksData !== 'undefined' ? WorksData : []);
+        init_app();
+    })
+</script>
+</body>
+</html>

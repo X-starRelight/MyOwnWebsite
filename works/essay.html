@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>是星星与然然呀 · 作品 | 随笔</title>
+    <!-- Font Awesome 7.2.0 ( Free ) -->
+    <link rel="stylesheet" href="/package/font-awesome/code/css/all.min.css">
+    <!-- GSAP 核心库 + ScrollTrigger 插件 -->
+    <script src="/package/GSAP/code/gsap.min.js"></script>
+    <script src="/package/GSAP/code/ScrollTrigger.min.js"></script>
+    <!-- Vue.js -->
+    <script src="/package/Vue/code/vue.global.prod.js"></script>
+
+    <!-- 动态加载外部资源（原有逻辑） -->
+    <script>
+      function loadStyle(src) {
+        return new Promise((resolve, reject) => {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = src + "?v=" + new Date().getTime();
+          link.async = true;
+          link.onload = resolve;
+          link.onerror = reject;
+          document.head.appendChild(link);
+        });
+      }
+
+      function loadScript(src) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          if (src.includes('?')) {
+            script.src = src + "&v=" + new Date().getTime();
+          } else {
+            script.src = src + "?v=" + new Date().getTime();
+          }
+          script.async = true;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+
+      const quicksJson = JSON.stringify([
+          { "name": "首页", "link": "/#home" },
+          { "name": "关于我们", "link": "/#about" },
+          { "name": "项目展示", "link": "/#studio" },
+          { "name": "团队成员", "link": "/#contact" },
+      ]);
+
+      const encodedQuicks = encodeURIComponent(quicksJson);
+      const text = encodeURIComponent("是星星与然然呀");
+
+      loadStyle("../assets/style.css");
+      let scriptArray = [
+        "/assets/AddHeader.js",
+        `https://footerjs-sxxyrry.pages.dev/footer.js?name=${text}&description=${text}&quicks=${encodedQuicks}`,
+        "/assets/AutoRun.js",
+        "/assets/pointer.js",
+      ];
+
+      scriptArray.forEach((script) => {
+        loadScript(script);
+      });
+    </script>
+
+    <!-- 样式（原有，保留） -->
+    <link rel="stylesheet" href="/assets/style.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0c10;
+            color: #eef2ff;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --bg-dark: #0a0c10;
+            --bg-card: #14171c;
+            --bg-elevated: #1e2128;
+            --border-dim: #2a2e36;
+            --text-primary: #f0f3fa;
+            --text-secondary: #b0b8c5;
+            --accent: #f97316;
+            --accent-hover: #fd9b4a;
+            --accent-glow: rgba(249, 115, 22, 0.2);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 12, 16, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dim);
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #facc15, #f97316);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            padding: 0.6rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #0a0c10;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px var(--accent-glow);
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .hero {
+            padding: 100px 0 80px;
+            background: radial-gradient(circle at 20% 30%, #11151c, #080b0f);
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-badge {
+            background: rgba(249,115,22,0.15);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+            color: var(--accent);
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .work-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border-dim);
+            transition: transform 0.2s, border-color 0.2s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .work-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 30px -15px rgba(0,0,0,0.5);
+        }
+
+        .card-header {
+            padding: 1.2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(0,0,0,0.2));
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .work-age {
+            display: inline-block;
+            background: rgba(249,115,22,0.2);
+            color: var(--accent);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0.5rem 0 0.25rem;
+        }
+
+        .work-sub {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .work-content {
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .work-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .work-content::-webkit-scrollbar-track {
+            background: var(--bg-elevated);
+        }
+        .work-content::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        .work-note {
+            background: var(--bg-elevated);
+            border-left: 3px solid var(--accent);
+            padding: 0.8rem;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: #cbd5e6;
+            border-radius: 8px;
+        }
+
+        .work-note i {
+            color: var(--accent);
+            margin-right: 6px;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-dim);
+            background: rgba(0,0,0,0.2);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .divider-section {
+            grid-column: 1 / -1;
+            background: var(--bg-elevated);
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .divider-intro {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-style: italic;
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+        }
+        .divider-item {
+            margin: 1rem 0;
+            padding-left: 1rem;
+            border-left: 1px solid var(--border-dim);
+        }
+        .divider-item-title {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .divider-item-content {
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+        }
+
+        .special-section {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 1.5rem;
+            grid-column: 1 / -1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .error-msg {
+            background: rgba(249,115,22,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer {
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .section-title { font-size: 1.8rem; }
+            .works-grid { grid-template-columns: 1fr; }
+            .nav-links { gap: 1rem; }
+        }
+
+        .gsap-fade {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge _target">
+                        <i class="fas fa-feather-alt"></i> 原创随笔
+                    </div>
+                    <h1 class="_target">
+                        《题于任何时，<br>记录所有事》
+                    </h1>
+                    <p class="_target">—— 由 是星星与然然呀 创作，成长的笔迹与沉思</p>
+                    <div style="margin-top: 2rem;">
+                        <a href="#works" class="btn btn-primary"><i class="fas fa-book-open"></i> 浏览作品</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="works">
+            <div class="container">
+                <h2 class="section-title gsap-fade">诗文辑录</h2>
+                <div v-if="loading" class="loading">
+                    <i class="fas fa-spinner fa-pulse"></i> 正在解析作品集...
+                </div>
+                <div v-else-if="error" class="error-msg">
+                    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+                    <button class="btn" style="margin-top: 1rem;" @click="fetchAndParse">重试</button>
+                </div>
+                <div v-else>
+                    <div class="works-grid">
+                        <template v-for="(chapter, idx) in chapters" :key="chapter.id">
+                            <!-- 普通章节（诗歌/随笔） -->
+                            <div v-if="chapter.type === 'normal'" class="work-card gsap-fade">
+                                <div class="card-header">
+                                    <span class="work-age _target"><i class="far fa-calendar-alt"></i> 创作于 {{ chapter.ageDisplay }} 岁</span>
+                                    <h3 class="work-title _target">{{ chapter.title || '无题' }}</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="work-content _target" v-html="chapter.bodyHtml"></div>
+                                    <div class="work-note _target" v-if="chapter.vernacular">
+                                        <i class="fas fa-language"></i> 白话文版<br>
+                                        <span v-html="chapter.vernacularHtml"></span>
+                                    </div>
+                                    <div class="work-note _target" v-if="chapter.authors_note">
+                                        <i class="fas fa-comment-dots"></i> 作者的话<br>
+                                        <span v-html="chapter.authors_noteHtml"></span>
+                                    </div>
+                                    <div class="work-note _target" v-if="chapter.comments">
+                                        <i class="fas fa-bookmark"></i> 注释<br>
+                                        <span v-html="chapter.commentsHtml"></span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <i class="fas fa-quote-left"></i> 编号 · {{ chapter.number }}
+                                </div>
+                            </div>
+
+                            <!-- 分割线章节（如“接下来是我突然想到的”及短句） -->
+                            <div v-else-if="chapter.type === 'divider'" class="divider-section gsap-fade">
+                                <div v-if="chapter.intro && chapter.intro.length" class="divider-intro">
+                                    <i class="fas fa-asterisk"></i> {{ chapter.intro.join(' ') }}
+                                </div>
+                                <div v-for="(item, itemIdx) in chapter.items" :key="itemIdx" class="divider-item _target">
+                                    <div class="divider-item-title _target">{{ item.title }}</div>
+                                    <div class="divider-item-content _target">{{ item.content.join('\n') }}</div>
+                                </div>
+                            </div>
+
+                            <!-- 特殊章节（如没有序号的单独文本） -->
+                            <div v-else-if="chapter.type === 'special'" class="special-section gsap-fade">
+                                <div class="work-content _target" v-html="chapter.contentHtml"></div>
+                            </div>
+                        </template>
+                    </div>
+                    <p v-if="chapters.length === 0" style="text-align: center; margin-top: 3rem;">暂无作品，请检查源文件。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title gsap-fade">关于本集</h2>
+                <div class="card _target" style="background: var(--bg-card); border-radius: 24px; padding: 2rem;">
+                    <p>这些文字是 12岁至14岁 期间写下的诗歌、杂记与随感。记录着对校园、成长、自由与内心的思考，有些稚嫩，却足够真诚。</p>
+                    <p style="margin-top: 1rem;">本页面动态解析原始文本文件（works.txt），通过自定义解析器提取每一篇作品、作者注、白话文版和注释，以纯粹的 Vue 渲染呈现。所有内容均保留原貌，包括诗歌分行与特殊格式。</p>
+                    <div style="margin-top: 1.5rem;">
+                        <i class="fas fa-dove"></i> “让笼中鸟，现在飞！展翅之高飞！”
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+    // ========== 解析器 ==========
+    (function(){
+        // 正则表达式
+        const CHAPTER_START = /^--- 第 (\d+) ---$/;
+        const DIVIDER_LINE = /^--- 分割线 ---$/;
+        const NUMBER_ITEM = /^(\d+)\.$/;
+        // 年龄正则：支持 "12 岁" 或 "13 ( 14 ) 岁" 等多种格式
+        const AGE_LINE = /^本题做于\s*(\d+(?:\s*\(?\s*\d+\s*\)?)?)\s*岁$/;
+        const TITLE_LINE = /^《(.+?)》$/;
+        const RAW_TITLE_LINE = /^《(.+?)》（原题：(.+?)）$/;
+
+        const VERNACULAR_MARKER = "--- 白话文版（重述） ---";
+        const OTHER_VERNACULAR = "--- 本文重述 ---";
+        const AUTHORS_NOTE_MARKER = "--- 来自作者的话 ---";
+        const COMMENT_MARKER = "--- 注释 ---";
+
+        function parseCollection(text) {
+            const lines = text.split(/\r?\n/);
+            const result = {
+                title: "",
+                original_title: "",
+                author: "",
+                preface: "",
+                chapters: []
+            };
+
+            let state = "header";
+            let currentChapter = null;
+            let currentBuffer = [];
+            let i = 0;
+
+            while (i < lines.length) {
+                const raw = lines[i];
+                const stripped = raw.trim();
+
+                if (state === "header") {
+                    if (i === 0) {
+                        const m = raw.match(/^《(.+?)》（原题：(.+?)）$/);
+                        if (m) {
+                            result.title = m[1];
+                            result.original_title = m[2];
+                        } else {
+                            result.title = raw.replace(/《|》/g, '');
+                        }
+                    } else if (i === 1 && stripped.startsWith('-- 由')) {
+                        result.author = stripped.split('-- ')[1];
+                    } else if (i === 2) {
+                        result.preface = raw;
+                        state = "waiting_chapter";
+                    }
+                    i++;
+                    continue;
+                }
+
+                if (state === "waiting_chapter") {
+                    if (!stripped) { i++; continue; }
+
+                    const m = CHAPTER_START.exec(stripped);
+                    if (m) {
+                        currentChapter = {
+                            type: "normal",
+                            number: parseInt(m[1]),
+                            age: null,
+                            ageDisplay: "",
+                            title: null,
+                            raw_lines: [],
+                            body: "",
+                            vernacular: null,
+                            authors_note: null,
+                            comments: null
+                        };
+                        state = "in_normal";
+                        currentBuffer = [raw];
+                        i++;
+                        continue;
+                    }
+
+                    if (DIVIDER_LINE.test(stripped)) {
+                        currentChapter = {
+                            type: "divider",
+                            raw_lines: [],
+                            intro: [],
+                            items: []
+                        };
+                        state = "in_divider";
+                        currentBuffer = [raw];
+                        i++;
+                        continue;
+                    }
+
+                    currentChapter = {
+                        type: "special",
+                        raw_lines: [],
+                        content: []
+                    };
+                    state = "in_special";
+                    currentBuffer = [raw];
+                    i++;
+                    continue;
+                }
+
+                if (state === "in_normal") {
+                    if (CHAPTER_START.test(stripped) || DIVIDER_LINE.test(stripped)) {
+                        parseNormalChapter(currentChapter, currentBuffer);
+                        result.chapters.push(currentChapter);
+                        state = "waiting_chapter";
+                        continue;
+                    } else {
+                        currentBuffer.push(raw);
+                        i++;
+                        continue;
+                    }
+                }
+
+                if (state === "in_divider") {
+                    if (CHAPTER_START.test(stripped) || DIVIDER_LINE.test(stripped)) {
+                        parseDivider(currentChapter, currentBuffer);
+                        result.chapters.push(currentChapter);
+                        state = "waiting_chapter";
+                        continue;
+                    } else {
+                        currentBuffer.push(raw);
+                        i++;
+                        continue;
+                    }
+                }
+
+                if (state === "in_special") {
+                    if (CHAPTER_START.test(stripped) || DIVIDER_LINE.test(stripped)) {
+                        currentChapter.raw_lines = currentBuffer;
+                        currentChapter.content = currentBuffer;
+                        result.chapters.push(currentChapter);
+                        state = "waiting_chapter";
+                        continue;
+                    } else {
+                        currentBuffer.push(raw);
+                        i++;
+                        continue;
+                    }
+                }
+            }
+
+            if (state === "in_normal" && currentChapter) {
+                parseNormalChapter(currentChapter, currentBuffer);
+                result.chapters.push(currentChapter);
+            } else if (state === "in_divider" && currentChapter) {
+                parseDivider(currentChapter, currentBuffer);
+                result.chapters.push(currentChapter);
+            } else if (state === "in_special" && currentChapter) {
+                currentChapter.raw_lines = currentBuffer;
+                currentChapter.content = currentBuffer;
+                result.chapters.push(currentChapter);
+            }
+
+            return result;
+        }
+
+        function parseNormalChapter(chapter, lines) {
+            chapter.raw_lines = lines;
+            // 提取年龄（支持带括号的格式）
+            for (const line of lines) {
+                const m = AGE_LINE.exec(line.trim());
+                if (m) {
+                    let ageRaw = m[1].trim();
+                    // 处理类似 "13 ( 14 )" 的格式，显示为 "13 (14)"
+                    ageRaw = ageRaw.replace(/\s*\(\s*(\d+)\s*\)/, ' ($1)');
+                    chapter.age = ageRaw;
+                    chapter.ageDisplay = ageRaw;
+                    break;
+                }
+            }
+            // 提取标题
+            for (const line of lines) {
+                let m = TITLE_LINE.exec(line.trim());
+                if (m) {
+                    chapter.title = m[1];
+                    break;
+                }
+                m = RAW_TITLE_LINE.exec(line.trim());
+                if (m) {
+                    chapter.title = m[1];
+                    break;
+                }
+            }
+
+            // 定位各个标记
+            const markers = [
+                { marker: VERNACULAR_MARKER, field: "vernacular" },
+                { marker: OTHER_VERNACULAR, field: "vernacular" },
+                { marker: AUTHORS_NOTE_MARKER, field: "authors_note" },
+                { marker: COMMENT_MARKER, field: "comments" }
+            ];
+            const positions = [];
+            for (let idx = 0; idx < lines.length; idx++) {
+                const stripped = lines[idx].trim();
+                for (const m of markers) {
+                    if (stripped === m.marker) {
+                        positions.push({ idx, field: m.field });
+                        break;
+                    }
+                }
+            }
+            positions.sort((a,b) => a.idx - b.idx);
+
+            // 正文：从开始到第一个标记之前，剔除年龄行、标题行、章节标记行
+            const firstMarkerIdx = positions.length ? positions[0].idx : lines.length;
+            const bodyLines = [];
+            for (let j = 0; j < firstMarkerIdx; j++) {
+                const stripped = lines[j].trim();
+                // 跳过：章节标记行（如 "--- 第 1 ---"）、年龄行、标题行
+                if (CHAPTER_START.test(stripped)) continue;
+                if (AGE_LINE.test(stripped)) continue;
+                if (TITLE_LINE.test(stripped) || RAW_TITLE_LINE.test(stripped)) continue;
+                bodyLines.push(lines[j]);
+            }
+            // 去除开头可能的空行，但保留内部空行（用于诗歌格式）
+            while (bodyLines.length && bodyLines[0].trim() === '') bodyLines.shift();
+            chapter.body = bodyLines.join('\n');
+
+            // 提取各个标记区域
+            for (let p = 0; p < positions.length; p++) {
+                const startIdx = positions[p].idx;
+                const endIdx = (p+1 < positions.length) ? positions[p+1].idx : lines.length;
+                const field = positions[p].field;
+                const contentLines = lines.slice(startIdx+1, endIdx);
+                // 去除首尾空行
+                while (contentLines.length && contentLines[0].trim() === '') contentLines.shift();
+                while (contentLines.length && contentLines[contentLines.length-1].trim() === '') contentLines.pop();
+                chapter[field] = contentLines.join('\n');
+            }
+        }
+
+        function parseDivider(chapter, lines) {
+            chapter.raw_lines = lines;
+            const intro = [];
+            const items = [];
+            let currentItem = null;
+            let inItem = false;
+
+            for (const line of lines) {
+                const stripped = line.trim();
+                if (stripped === "--- 分割线 ---") continue;
+                const m = NUMBER_ITEM.exec(stripped);
+                if (m) {
+                    if (currentItem) items.push(currentItem);
+                    currentItem = { title: line, content: [] };
+                    inItem = true;
+                    continue;
+                }
+                if (inItem && currentItem) {
+                    currentItem.content.push(line);
+                } else {
+                    intro.push(line);
+                }
+            }
+            if (currentItem) items.push(currentItem);
+            chapter.intro = intro;
+            chapter.items = items;
+        }
+
+        window.parseCollection = parseCollection;
+    })();
+
+    // ========== Vue 应用 ==========
+    const { createApp, ref, onMounted, nextTick } = Vue;
+
+    // 完整的源文本
+    const FALLBACK_TEXT = `Unknow`;
+
+    createApp({
+        setup() {
+            const chapters = ref([]);
+            const loading = ref(true);
+            const error = ref('');
+
+            const fetchAndParse = async () => {
+                loading.value = true;
+                error.value = '';
+                let rawText = '';
+                try {
+                    const response = await fetch('/assets/works.txt?v=' + Date.now());
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    rawText = await response.text();
+                } catch (err) {
+                    console.warn('fetch works.txt 失败，使用内嵌文本', err);
+                    rawText = FALLBACK_TEXT;
+                }
+                try {
+                    const parsed = window.parseCollection(rawText);
+                    const processed = parsed.chapters.map((chap, idx) => {
+                        chap.id = `chap_${idx}`;
+                        if (chap.type === 'normal') {
+                            chap.bodyHtml = (chap.body || '').replace(/\n/g, '<br>');
+                            chap.vernacularHtml = chap.vernacular ? chap.vernacular.replace(/\n/g, '<br>') : '';
+                            chap.authors_noteHtml = chap.authors_note ? chap.authors_note.replace(/\n/g, '<br>') : '';
+                            chap.commentsHtml = chap.comments ? chap.comments.replace(/\n/g, '<br>') : '';
+                        } else if (chap.type === 'special') {
+                            chap.contentHtml = chap.content.join('\n').replace(/\n/g, '<br>');
+                        }
+                        return chap;
+                    });
+                    chapters.value = processed;
+                    if (processed.length === 0) error.value = '未能解析出任何作品，请检查文本格式';
+                } catch (e) {
+                    console.error(e);
+                    error.value = '解析作品数据失败: ' + e.message;
+                } finally {
+                    loading.value = false;
+                    await nextTick();
+                    initGSAP();
+                }
+            };
+
+            const initGSAP = () => {
+                if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+                ScrollTrigger.getAll().forEach(t => t.kill());
+                gsap.utils.toArray('.gsap-fade').forEach(el => {
+                    gsap.set(el, { opacity: 0, y: 20 });
+                    ScrollTrigger.create({
+                        trigger: el,
+                        start: "top 85%",
+                        onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out", overwrite: true }),
+                        once: true
+                    });
+                });
+                ScrollTrigger.refresh();
+            };
+
+            onMounted(() => {
+                fetchAndParse();
+                if (typeof gsap !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+            });
+
+            return { chapters, loading, error, fetchAndParse };
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>
