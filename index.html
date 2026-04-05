@@ -47,6 +47,7 @@
           { "name": "关于我们", "link": "/#about" },
           { "name": "项目展示", "link": "/#studio" },
           { "name": "团队成员", "link": "/#contact" },
+          { "name": "捐赠", "link": "/donate.html" },
       ]);
 
       const encodedQuicks = encodeURIComponent(quicksJson);
@@ -104,74 +105,6 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 0 24px;
-        }
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(10, 12, 16, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-dim);
-            padding: 1rem 0;
-        }
-
-        .nav-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo a {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #facc15, #f97316);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: transparent;
-            border: 1.5px solid var(--accent);
-            color: var(--accent);
-            padding: 0.6rem 1.4rem;
-            border-radius: 40px;
-            font-weight: 600;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #0a0c10;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px var(--accent-glow);
         }
 
         .btn-outline:hover {

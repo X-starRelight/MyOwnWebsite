@@ -31,6 +31,7 @@ class StudioHeader {
             <li><a href="/#works">作品集</a></li>
             <li><a href="/#studio">工作室</a></li>
             <li><a href="/#contact">联系</a></li>
+            <li><a href="/donate.html">捐赠</a></li>
         </ul>
     </div>
 </nav>
