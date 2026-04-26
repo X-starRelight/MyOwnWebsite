@@ -398,14 +398,14 @@
                 <h2 class="section-title gsap-fade-up">个人作品</h2>
                 <div class="works-grid">
                     <div v-for="work in worksData" :key="work.id" class="work-card gsap-fade-up">
-                        <div class="work-icon _target"><i :class="work.icon"></i></div>
+                        <div class="work-icon _target"><img v-if="work.icon.includes('http')" :src="work.icon" :alt="work.title" style="width: 1.5rem;height: 1.5rem;border-radius: 50%;"><i v-else :class="work.icon"></i></div>
                         <div class="work-title _target">{{ work.title }}</div>
                         <div class="work-desc _target" v-html="work.desc"></div>
                         <div class="work-tags">
                             <span v-for="tag in work.tags" :key="tag" class="work-tag _target">{{ tag }}</span>
                         </div>
                         <a :href="work.link" target="_blank" class="btn btn-outline" style="align-self: flex-start; margin-top: 0.5rem; padding: 0.4rem 1rem;">
-                            <i :class="work.btnIcon"></i> {{ work.btnText }}
+                            <img v-if="work.btnIcon.includes('http')" :src="work.btnIcon" :alt="work.title" style="width: 1.5rem;height: 1.5rem;border-radius: 50%;"><i v-else :class="work.btnIcon"></i> {{ work.btnText }}
                         </a>
                     </div>
                 </div>

@@ -13,15 +13,25 @@ const WorksData = [
   {
     id: 2,
     icon: "fas fa-download",
-    title: "TTHSD TT 高速下载器 SDK",
-    desc: "TT 高速下载器 SDK。",
-    tags: ["下载器", "跨平台", "动态库", "Rust", "SDK"],
-    link: "https://tt23xr.sxxyrry.qzz.io/Products/tthsd",
+    title: "TLD 泰勒下载器",
+    desc: "TLD 泰勒下载器是一个高性能、跨平台、多语言可调用的下载引擎内核。",
+    tags: ["下载器", "跨平台", "动态库", "Rust", "COre"],
+    link: "https://tt23xr.sxxyrry.qzz.io/Products/Disambiguation/tld",
     btnIcon: "fas fa-download",
     btnText: "查看详情"
   },
   {
     id: 3,
+    icon: "https://cdn-icons-png.flaticon.com/128/5968/5968292.png",
+    title: "KossJS",
+    desc: "KossJS 是一个高性能、跨平台、嵌入式的 JavaScript 运行时引擎。",
+    tags: ["运行时", "跨平台", "嵌入式", "JavaScript"],
+    link: "https://tt23xr.sxxyrry.qzz.io/Products/Disambiguation/kossjs",
+    btnIcon: "https://cdn-icons-png.flaticon.com/128/5968/5968292.png",
+    btnText: "查看详情"
+  },
+  {
+    id: 4,
     icon: "fas fa-toolbox",
     title: "JustHTML 只需网页 工具箱",
     desc: "JustHTML 只需网页 工具箱。",
