@@ -26,7 +26,7 @@ const WorksData = [
     title: "KossJS",
     desc: "KossJS 是一个高性能、跨平台、嵌入式的 JavaScript 运行时引擎。",
     tags: ["运行时", "跨平台", "嵌入式", "JavaScript"],
-    link: "https://tt23xr.sxxyrry.qzz.io/Products/Disambiguation/kossjs",
+    link: "https://tt23xr.sxxyrry.qzz.io/Products/kossjs",
     btnIcon: "https://cdn-icons-png.flaticon.com/128/5968/5968292.png",
     btnText: "查看详情"
   },
