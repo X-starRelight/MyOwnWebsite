@@ -15,7 +15,7 @@ const WorksData = [
     icon: "fas fa-download",
     title: "TLD 泰勒下载器",
     desc: "TLD 泰勒下载器是一个高性能、跨平台、多语言可调用的下载引擎内核。",
-    tags: ["下载器", "跨平台", "动态库", "Rust", "COre"],
+    tags: ["下载器", "跨平台", "动态库", "Rust", "Core"],
     link: "https://tt23xr.sxxyrry.qzz.io/Products/Disambiguation/tld",
     btnIcon: "fas fa-download",
     btnText: "查看详情"
