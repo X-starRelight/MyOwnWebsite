@@ -51,7 +51,7 @@
       ]);
 
       const encodedQuicks = encodeURIComponent(quicksJson);
-      const text = encodeURIComponent("是星星与然然呀");
+      const text = encodeURIComponent("星燃_X-starRelight");
 
       loadStyle("../assets/style.css");
       let scriptArray = [
@@ -155,7 +155,7 @@
         }
 
         .qrcode-img {
-            background: white;
+            background: rgb(68, 71, 73);
             padding: 0.75rem;
             border-radius: 28px;
             box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
@@ -411,7 +411,7 @@
 
     <div class="back-home">
         <a href="/index.html">
-            <i class="fas fa-arrow-left"></i> 回到「是星星与然然呀」个人主页
+            <i class="fas fa-arrow-left"></i> 回到「星燃_X-starRelight」个人主页
         </a>
     </div>
 </div>
@@ -449,7 +449,7 @@
         const copyBtn = document.getElementById('copyThanksBtn');
         if (copyBtn) {
             copyBtn.addEventListener('click', async function() {
-                const thanksText = `✨ 感谢您的慷慨支持！✨\n\n每一份赞助都会化作星辰与代码之间的光，让「是星星与然然呀」以及 TT23XR 工作室能够持续创作更多有趣的项目。\n\n愿技术与你同行，热爱永不熄灭。❤️\n\n—— 是星星与然然呀 敬上`;
+                const thanksText = `✨ 感谢您的慷慨支持！✨\n\n每一份赞助都会化作星辰与代码之间的光，让「星燃_X-starRelight」以及 TT23XR 工作室能够持续创作更多有趣的项目。\n\n愿技术与你同行，热爱永不熄灭。❤️\n\n—— 星燃_X-starRelight 敬上`;
                 try {
                     await navigator.clipboard.writeText(thanksText);
                     // 临时改变按钮文字反馈

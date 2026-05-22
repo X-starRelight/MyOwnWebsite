@@ -23,7 +23,7 @@ class StudioHeader {
 <nav class="navbar">
     <div class="container nav-content">
         <div class="logo">
-            <a href="#">✨ 是星星与然然呀 ✨</a>
+            <a href="#">✨ 星燃_X-starRelight ✨</a>
         </div>
         <ul class="nav-links">
             <li><a href="/#home">首页</a></li>
