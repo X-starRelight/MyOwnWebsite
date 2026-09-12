@@ -39,5 +39,15 @@ const WorksData = [
     link: "https://justhtml.sxxyrry.qzz.io/",
     btnIcon: "fas fa-toolbox",
     btnText: "查看详情"
+  },
+  {
+    id: 5,
+    icon: "",
+    title: "《异常世界》小说",
+    desc: "一个与现实世界完全平行的世界——所有物质由标准尺寸的方块构成。异常管理委员会负责探索、接触、收容并解明未知异常现象，星燃是小说的主角，在他身上，会发生什么有趣的事情呢？",
+    tags: ["小说", "原创"],
+    link: "https://anomaly-world-xr.pages.dev/",
+    btnIcon: "",
+    btnText: "查看详情"
   }
 ];
